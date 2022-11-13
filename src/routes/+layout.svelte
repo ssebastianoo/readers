@@ -3,7 +3,15 @@
 	import Header from '$lib/Header.svelte';
 </script>
 
-<Header />
-<main>
-	<slot />
-</main>
+<div class="container">
+	<Header />
+	<main>
+		<slot />
+	</main>
+</div>
+
+<style lang="scss">
+	.container {
+		padding: 20px;
+	}
+</style>

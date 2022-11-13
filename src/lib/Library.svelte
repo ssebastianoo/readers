@@ -7,8 +7,8 @@
 
 	export let user: User;
 	let books: BooksList = {
-		'to read': [],
 		reading: [],
+		'to read': [],
 		read: [],
 		abandoned: []
 	};
@@ -22,8 +22,8 @@
 			filter: `user_id='${user.id}'`
 		});
 		let books_: BooksList = {
-			'to read': [],
 			reading: [],
+			'to read': [],
 			read: [],
 			abandoned: []
 		};
@@ -40,7 +40,9 @@
 				totalPages: bookData.total_pages,
 				currentPage: book.current_page,
 				status: status,
-				cover: `${variables.pocketbaseURL}/api/files/books/${bookData.id}/${bookData.cover}`
+				cover: bookData.cover
+					? `${variables.pocketbaseURL}/api/files/books/${bookData.id}/${bookData.cover}`
+					: '/no-book-cover.png'
 			};
 
 			books_[status].push(bookObj);
@@ -57,27 +59,54 @@
 		books[book.status] = books[book.status].filter((b) => b.id !== book.id);
 		storeLibrary.set(books);
 	}
+
+	function getShelfName(shelfName: string) {
+		switch (shelfName) {
+			case 'reading':
+				return "You're reading";
+			case 'to read':
+				return 'You want to read';
+			case 'read':
+				return 'You read';
+			case 'abandoned':
+				return 'You abandoned';
+		}
+	}
 </script>
 
 <div class="library">
 	{#each Object.entries(books) as [shelfName, shelf]}
-		<h2>{shelfName}</h2>
+		<h2>{getShelfName(shelfName)}</h2>
 		{#if shelf.length === 0}
 			<p>No books here</p>
 		{:else}
-			{#each shelf as book}
-				<div class="book">
-					<h3>{book.title}</h3>
+			<div class="shelf">
+				{#each shelf as book}
+					<div class="book">
+						<!-- <h3>{book.title}</h3>
 					<p>{book.author}</p>
 					<p>{book.currentPage} / {book.totalPages}</p>
 					<button
 						on:click|preventDefault={() => {
 							deleteBook(book);
 						}}>remove</button
-					>
-					<img width="100" src={book.cover} alt={`${book.title} cover`} />
-				</div>
-			{/each}
+					> -->
+						<img height="150" src={book.cover} alt={`${book.title} cover`} />
+					</div>
+				{/each}
+			</div>
 		{/if}
 	{/each}
 </div>
+
+<style lang="scss">
+	.shelf {
+		display: flex;
+		gap: 15px;
+
+		.book img {
+			border-radius: 5px;
+			box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.644);
+		}
+	}
+</style>

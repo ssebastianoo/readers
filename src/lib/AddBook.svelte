@@ -107,6 +107,7 @@
 				placeholder="Book title..."
 				autocomplete="off"
 				value="among"
+				class="add-book-input"
 			/>
 			<div class="result" />
 		{:else}
@@ -154,9 +155,21 @@
 	</div>
 {/if}
 
-<style>
+<style lang="scss">
 	.book,
 	.status {
 		cursor: pointer;
+	}
+
+	.add-book-input {
+		all: unset;
+		padding: 2px;
+		border: 1px solid black;
+		border-radius: 4px;
+		transition: box-shadow 0.2s;
+
+		&:focus {
+			box-shadow: 4px 4px black;
+		}
 	}
 </style>

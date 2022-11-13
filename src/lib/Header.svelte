@@ -1,20 +1,20 @@
 <script lang="ts">
-    import Auth from "$lib/Auth.svelte";
+	import Auth from '$lib/Auth.svelte';
 </script>
 
 <header>
-	<nav>
-		<div class="nav-item">
-			<a href="/">Home</a>
-		</div>
-		<Auth />
-	</nav>
+	<h1>Readers</h1>
+	<Auth />
 </header>
 
 <style lang="scss">
-	nav {
+	header {
 		display: flex;
-		gap: 20px;
-		padding: 20px;
+		align-items: center;
+		justify-content: space-between;
+
+		h1 {
+			margin: 0;
+		}
 	}
 </style>
