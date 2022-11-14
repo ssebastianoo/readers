@@ -76,7 +76,7 @@
 	let selectedBook: null | Book = null;
 	// let selectedBook: any = 'dksoakdjdiah';
 
-	let openPopup = true;
+	let openPopup = false;
 
 	async function searchBook(e: Event) {
 		const target = e.target as HTMLInputElement;
@@ -143,13 +143,12 @@
 			author: selectedBook.author,
 			description: selectedBook.description,
 			cover: selectedBook.cover
-				? `${variables.pocketbaseURL}/api/files/books/${selectedBook.id}/${selectedBook.cover}`
-				: '/no-book-cover.png'
 		});
 
 		storeLibrary.set(library);
 
 		selectedBook = null;
+		openPopup = false;
 		alert('Book added to library!');
 	}
 </script>
@@ -172,33 +171,85 @@
 	{:else}
 		<div class="add-book">
 			<p class="title">Add a book to your library</p>
-			<input
-				type="text"
-				name="title"
-				placeholder="Search book..."
-				autocomplete="off"
-				value="among"
-				on:input={searchBook}
-			/>
-			<div class="books">
-				{#each results as book}
+			{#if !selectedBook}
+				<input
+					type="text"
+					name="title"
+					placeholder="Search book..."
+					autocomplete="off"
+					value="among"
+					on:input={searchBook}
+				/>
+				<div class="books">
+					{#each results as book}
+						<div
+							class="book"
+							on:keypress|preventDefault
+							on:click={() => {
+								selectedBook = book;
+								results = [];
+							}}
+						>
+							<BookCover {book} />
+						</div>
+					{/each}
+				</div>
+			{:else}
+				<p class="book-state">What's this book state?</p>
+				<div class="select-status">
 					<div
-						class="book"
+						class="status"
 						on:keypress|preventDefault
-						on:click={() => {
-							selectedBook = book;
-							results = [];
-						}}
+						on:click={() => addBookToLibrary('reading')}
 					>
-						<BookCover {book} />
+						<p>Reading</p>
 					</div>
-				{/each}
-			</div>
+					<div
+						class="status"
+						on:keypress|preventDefault
+						on:click={() => addBookToLibrary('to read')}
+					>
+						<p>To Read</p>
+					</div>
+					<div class="status" on:keypress|preventDefault on:click={() => addBookToLibrary('read')}>
+						<p>Read</p>
+					</div>
+					<div
+						class="status"
+						on:keypress|preventDefault
+						on:click={() => addBookToLibrary('abandoned')}
+					>
+						<p>Abandoned</p>
+					</div>
+				</div>
+			{/if}
 		</div>
 	{/if}
 {/if}
 
 <style lang="scss">
+	.book-state {
+		background-color: white;
+	}
+
+	.select-status {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		.status {
+			cursor: pointer;
+			background-color: var(--color1);
+			border: 1px solid white;
+			border-radius: 5px;
+			padding: 3px;
+
+			p {
+				margin: 0;
+			}
+		}
+	}
+
 	.add-book {
 		position: absolute;
 		width: calc(100vw - 60px);
