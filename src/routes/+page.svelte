@@ -11,6 +11,5 @@
 </script>
 
 {#if user}
-	<AddBook />
 	<Library {user} />
-{/if}
+	<AddBook />{/if}

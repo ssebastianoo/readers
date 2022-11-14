@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { client } from '$lib/database';
 	import type { User } from 'pocketbase';
-	import { onMount } from 'svelte';
+	import { variables } from '$lib/variables';
 	import { user as storeUser } from '$lib/store';
 
 	async function registerUser(e: Event) {
@@ -41,7 +41,10 @@
 				id: userData.id,
 				name: userData.name,
 				username: userData.username,
-				email: userData.email
+				email: userData.email,
+				avatar: userData.avatar
+					? `${variables.pocketbaseURL}/api/files/users/${userData.id}/${userData.avatar}`
+					: '/default-avatar.webp'
 			});
 		}
 	}

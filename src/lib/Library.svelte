@@ -3,7 +3,8 @@
 	import type { User, BookInLibrary, BooksList } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { library as storeLibrary } from '$lib/store';
-	import { variables } from './variables';
+	import { variables } from '$lib/variables';
+	import BookCover from '$lib/BookCover.svelte';
 
 	export let user: User;
 	let books: BooksList = {
@@ -82,17 +83,7 @@
 		{:else}
 			<div class="shelf">
 				{#each shelf as book}
-					<div class="book">
-						<!-- <h3>{book.title}</h3>
-					<p>{book.author}</p>
-					<p>{book.currentPage} / {book.totalPages}</p>
-					<button
-						on:click|preventDefault={() => {
-							deleteBook(book);
-						}}>remove</button
-					> -->
-						<img height="150" src={book.cover} alt={`${book.title} cover`} />
-					</div>
+					<BookCover {book} />
 				{/each}
 			</div>
 		{/if}
@@ -103,10 +94,5 @@
 	.shelf {
 		display: flex;
 		gap: 15px;
-
-		.book img {
-			border-radius: 5px;
-			box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.644);
-		}
 	}
 </style>

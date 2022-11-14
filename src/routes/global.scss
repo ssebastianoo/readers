@@ -3,6 +3,10 @@
 	src: url('/Helvetica.ttf');
 }
 
+:root {
+	--color1: #ffb36c;
+}
+
 html,
 body {
 	margin: 0;
@@ -11,6 +15,6 @@ body {
 
 body {
 	color: black;
-	background-color: #ffb36c;
+	background-color: var(--color1);
 	font-family: Helvetica;
 }
