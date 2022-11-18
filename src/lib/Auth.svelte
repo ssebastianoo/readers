@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { client } from '$lib/database';
-	import type { User } from '$lib/types';
+	import type { User } from '$lib/utils';
 	import { user as storeUser } from '$lib/store';
 	import { onMount } from 'svelte';
-	import { variables } from './variables';
+	import { variables } from './utils';
 
 	let user: null | User;
 	let loaded: boolean = false;

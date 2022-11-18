@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { client } from '$lib/database';
 	import type { User } from 'pocketbase';
-	import { variables } from '$lib/variables';
+	import { variables } from '$lib/utils';
 	import { user as storeUser } from '$lib/store';
 
 	async function registerUser(e: Event) {

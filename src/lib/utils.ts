@@ -1,3 +1,9 @@
+import type { Record } from 'pocketbase';
+
+export const variables = {
+	pocketbaseURL: import.meta.env.VITE_POCKETBASE_URL
+};
+
 export type User = {
 	id: string;
 	username: string;
@@ -26,3 +32,9 @@ export type BooksList = {
 	read: BookInLibrary[];
 	abandoned: BookInLibrary[];
 };
+
+export function getCoverUrl(data: Record) {
+	return data.cover
+		? `${variables.pocketbaseURL}/api/files/books/${data.id}/${data.cover}`
+		: '/no-book-cover.png';
+}

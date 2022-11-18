@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { client } from '$lib/database';
-	import type { User, BookInLibrary, BooksList } from '$lib/types';
+	import type { User, BookInLibrary, BooksList } from '$lib/utils';
 	import { onMount } from 'svelte';
 	import { library as storeLibrary } from '$lib/store';
-	import { variables } from '$lib/variables';
 	import BookCover from '$lib/BookCover.svelte';
+	import { getCoverUrl } from '$lib/utils';
 
 	export let user: User;
 	let books: BooksList = {
@@ -32,7 +32,6 @@
 			const status = book.status as 'to read' | 'reading' | 'read' | 'abandoned';
 			const bookData = await client.records.getOne('books', book.book_id);
 
-			console.log(bookData.cover);
 			const bookObj: BookInLibrary = {
 				id: bookData.id,
 				title: bookData.title,
@@ -41,9 +40,7 @@
 				totalPages: bookData.total_pages,
 				currentPage: book.current_page,
 				status: status,
-				cover: bookData.cover
-					? `${variables.pocketbaseURL}/api/files/books/${bookData.id}/${bookData.cover}`
-					: '/no-book-cover.png'
+				cover: getCoverUrl(bookData)
 			};
 
 			books_[status].push(bookObj);

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { User, BooksList } from '$lib/types';
+import type { User, BooksList, Book } from '$lib/utils';
 
 export const user = writable<null | User>(null);
 export const library = writable<BooksList>({
@@ -8,3 +8,4 @@ export const library = writable<BooksList>({
 	read: [],
 	abandoned: []
 });
+export const bookCreated = writable<Book>();

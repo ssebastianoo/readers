@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Book, BookInLibrary } from '$lib/types';
+	import type { Book, BookInLibrary } from '$lib/utils';
 	export let book: BookInLibrary | Book;
 </script>
 
